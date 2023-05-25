@@ -1,0 +1,82 @@
+import tkinter as tk
+
+# создание окна
+root = tk.Tk()
+root.geometry('400x300')
+
+# создание переменных для хранения данных
+last_name_var = tk.StringVar()
+first_name_var = tk.StringVar()
+zodiac_var = tk.StringVar()
+day_var = tk.StringVar()
+month_var = tk.StringVar()
+year_var = tk.StringVar()
+
+# функция для отображения информации о людях по месяцу рождения
+def show_info_by_month():
+    month = month_var.get()
+    info = ''
+    for person in people_list:
+        if person[3][1] == month:
+            info += f'{person[0]} {person[1]}, {person[2]}, {person[3][0]}.{person[3][1]}.{person[3][2]}\n'
+    result_label.config(text=info)
+
+# создание виджетов для ввода информации
+last_name_label = tk.Label(root, text='Фамилия:')
+last_name_label.pack()
+last_name_entry = tk.Entry(root, textvariable=last_name_var)
+last_name_entry.pack()
+
+first_name_label = tk.Label(root, text='Имя:')
+first_name_label.pack()
+first_name_entry = tk.Entry(root, textvariable=first_name_var)
+first_name_entry.pack()
+
+zodiac_label = tk.Label(root, text='Знак зодиака:')
+zodiac_label.pack()
+zodiac_entry = tk.Entry(root, textvariable=zodiac_var)
+zodiac_entry.pack()
+
+birthday_label = tk.Label(root, text='Дата рождения:')
+birthday_label.pack()
+day_entry = tk.Entry(root, width=3, textvariable=day_var)
+day_entry.pack(side=tk.LEFT)
+month_entry = tk.Entry(root, width=3, textvariable=month_var)
+month_entry.pack(side=tk.LEFT)
+year_entry = tk.Entry(root, width=5, textvariable=year_var)
+year_entry.pack(side=tk.LEFT)
+
+# создание списка для хранения данных о людях
+people_list = []
+
+# функция для добавления информации о новом человеке
+def add_person():
+    last_name = last_name_var.get()
+    first_name = first_name_var.get()
+    zodiac = zodiac_var.get()
+    day = int(day_var.get())
+    month = int(month_var.get())
+    year = int(year_var.get())
+    person_data = (last_name, first_name, zodiac, (day, month, year))
+    people_list.append(person_data)
+    last_name_var.set('')
+    first_name_var.set('')
+    zodiac_var.set('')
+    day_var.set('')
+    month_var.set('')
+    year_var.set('')
+    result_label.config(text='Человек добавлен')
+
+# создание кнопки для добавления информации о новом человеке
+add_button = tk.Button(root, text='Добавить', command=add_person)
+add_button.pack()
+
+# создание кнопки для отображения информации о людях по месяцу рождения
+show_button = tk.Button(root, text='Показать', command=show_info_by_month)
+show_button.pack()
+
+# создание метки для вывода результата
+result_label = tk.Label(root)
+result_label.pack()
+
+root.mainloop()
